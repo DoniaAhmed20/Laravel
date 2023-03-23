@@ -2,74 +2,95 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $allPosts = [
-            [
-                'id' => 1,
-                'title' => 'Laravel',
-                'posted_by' => 'Ahmed',
-                'created_at' => '2022-08-01 10:00:00'
-            ],
-
-            [
-                'id' => 2,
-                'title' => 'PHP',
-                'posted_by' => 'Mohamed',
-                'created_at' => '2022-08-01 10:00:00'
-            ],
-
-            [
-                'id' => 3,
-                'title' => 'Javascript',
-                'posted_by' => 'Ali',
-                'created_at' => '2022-08-01 10:00:00'
-            ],
-        ];
+        $allPosts = Post::all(); //select * from posts
 
         return view('post.index', ['posts' => $allPosts]);
     }
 
     public function show($id)
     {
-//        dd($id);
-        $post =  [
-            'id' => 3,
-            'title' => 'Javascript',
-            'posted_by' => 'Ali',
-            'created_at' => '2022-08-01 10:00:00',
-            'description' => 'hello description',
-        ];
+//        $post = Post::find($id); //select * from posts where id = 1 limit 1;
 
-//        dd($post);
+        $postCollection = Post::where('id', $id)->get(); //Collection object .... select * from posts where id = 1;
+
+        $post = Post::where('id', $id)->first(); //Post model object ... select * from posts where id = 1 limit 1;
+
+//        Post::where('title', 'Laravel')->first();
 
         return view('post.show', ['post' => $post]);
     }
 
+//     public function show($id)
+//     {
+// //        dd($id);
+//         $post =  [
+//             'id' => 3,
+//             'title' => 'Javascript',
+//             'posted_by' => 'Ali',
+//             'created_at' => '2022-08-01 10:00:00',
+//             'description' => 'hello description',
+//         ];
+
+// //        dd($post);
+
+//         return view('post.show', ['post' => $post]);
+//     }
+
     //EDIT function
-    public function edit()
-    {
-        $post =  [
-            'title' => 'Laravel',
-            'posted_by' => 'Donia',
-            'discription' => 'framework'
-        ];
-        return view('post.edit', ['post' => $post]);
-    }
+                              ////////Edit////////
+                              public function edit($post){
+                                $post= Post::find($post);
+                                $users = User::all();
+                                return view('posts.edit', ['users' => $users], ['post' => $post]);
+                            }
+                              public function update(Request $request, $id)
+                              {
+                                  $post = Post::find($id);
+
+                                  $post->title = $request->input('title');
+                                  $post->description = $request->input('description');
+                                  $post->save();
+
+                                  return redirect()->route('posts.index');
+                              }
+
+
 
     //CREATE function
     public function create()
     {
-        return view('post.create');
+        $users = User::all();
+
+        return view('post.create', ['users' => $users]);
     }
 
+    public function store(Request $request)
+    {
+        //get the form data
+//        $data = request()->all();
+//
+        $title = request()->title;
+        $description = request()->description;
+        $postCreator = request()->post_creator;
 
-    //store data in DB 
-    public function store(){
-        return redirect()->route('posts.index');
+//        $data = $request->all();
+
+        //insert the form data in the database
+        Post::create([
+            'title' => $title,
+            'description' => $description,
+            'user_id' => $postCreator,
+        ]);
+
+        //redirect to index route
+        return to_route('posts.index');
     }
 }

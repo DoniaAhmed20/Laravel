@@ -5,8 +5,9 @@
 @section('content')
 
 
-<form action="{{ route('posts.store') }}" method="POST">
-@csrf
+<form method="post" action="{{route('posts.update', $post->id)}}">
+    @csrf
+    @method('PUT')
     <div class="mb-3">
       <label for="disabledTextInput" class="form-label">Title</label>
       <input type="text" id="disabledTextInput" class="form-control" placeholder="Title input" value="{{$post['title']}}">

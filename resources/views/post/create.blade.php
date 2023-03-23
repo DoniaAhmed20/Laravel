@@ -1,25 +1,30 @@
 @extends('layouts.app')
 
-@section('title') Create @endsection
+@section('title')
+    Create
+@endsection
 
 @section('content')
+    <form method="POST" action="{{route('posts.store')}}">
+        @csrf
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Title</label>
+            <input name="title" type="text" class="form-control" id="exampleFormControlInput1">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+            <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
 
-<form action="{{ route('posts.store') }}" method="POST">
-  @csrf
-  <div class="mb-3">
-    <label for="disabledSelect" class="form-label">Title</label>
-    <input type="text" class="form-control" id="disabledTextInput" name="title" placeholder="Title input" required>
-  </div>
-  <div class="mb-3" style="height: 7rem;">
-    <label for="disabledSelect" class="form-label">Discription</label>
-    <input type="text" class="form-control h-75" id="disabledTextInput"  name="discription" placeholder="Discription input" required>
-  </div>
-  <div class="mb-3">
-    <label for="disabledSelect" class="form-label">Post Creator</label>
-    <input type="text" class="form-control" id="disabledTextInput"  name="PostCreator" placeholder="posted_by" required>
-  </div>
-  <button type="submit" class="btn btn-primary">Create</button>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Post Creator</label>
+            <select name="post_creator" class="form-control">
+                @foreach($users as $user)
+                    <option value="{{$user->id}}">{{$user->name}}</option>
+                @endforeach
+            </select>
+        </div>
 
-</form>
-
+        <button class="btn btn-success">Submit</button>
+    </form>
 @endsection
