@@ -29,14 +29,39 @@
             <td>Not Found</td>
             @endif
             <td>{{$post->created_at->format('Y-m-d')}}</td>
-            <td>
+            <td class="d-flex gap-3">
                 <a href="{{route('posts.show', $post->id)}}" class="btn btn-info">View</a>
                 <a href="{{route('posts.edit', $post->id)}}" class="btn btn-primary">Edit</a>
-                <form method="post" action="{{route('posts.destroy', $post->id)}}" onclick="return confirm('Are you sure you want to delete this post?')">
-                    @method('DELETE')
-                    @csrf
-                    <button class="btn btn-danger">Delete</button>
-                </form>
+                {{-- <a href="#" class="btn btn-danger">Delete</a> --}}
+                    <form action="{{route('posts.destroy', $post->id)}}" method="post">
+                        @csrf
+                        @method('DELETE')
+                            <!-- <button type="submit" class="btn btn-danger" onclick="return myFunction()"> Delete </button> -->
+                            <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirm-delete-modal{{$post->id}}">
+                        Delete
+                        </button>
+
+                        <!--Delete  Modal -->
+                        <div class="modal fade" id="confirm-delete-modal{{$post->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <p class="modal-title fs-3 text-danger" id="exampleModalLabel">Confirm Delete</p>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5> Are you sure, you want to delete this post? </h5>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Delete</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+
             </td>
         </tr>
         @endforeach

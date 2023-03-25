@@ -23,15 +23,11 @@ class PostController extends Controller
 
     public function show($id)
     {
-        //        $post = Post::find($id); //select * from posts where id = 1 limit 1;
 
-        $postCollection = Post::where('id', $id)->get(); //Collection object .... select * from posts where id = 1;
-
-        $post = Post::where('id', $id)->first(); //Post model object ... select * from posts where id = 1 limit 1;
-
-        //        Post::where('title', 'Laravel')->first();
-
-        return view('post.show', ['post' => $post]);
+        $post = Post::where('id', $id)->first();
+        $comments = $post->comments;
+        //dd($);
+        return view('post.show',["comments"=>$comments,'post' => $post]);
     }
 
 
@@ -40,7 +36,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $users = User::all();
-        return view('post.edit', ['users' => $users], ['post' => $post]);
+        return view('post.edit', ['users' => $users, 'post' => $post]);
     }
     public function update(Request $request, $id){
         $post = post::find($id);
@@ -55,18 +51,6 @@ class PostController extends Controller
         return to_route('posts.index')->with('success', 'A Post is Updated Successfully!');
     }
 
-    // public function update($post, Request $request)
-    // {
-    //     $singlePost = Post::findOrFail($post);
-    //     $singlePost->update([
-    //         'title'=>$request->title,
-    //         'description'=>$request->description,
-    //     ]);
-
-    //     dd($singlePost);
-    // }
-
-
 
 
 
@@ -79,11 +63,10 @@ class PostController extends Controller
     }
 
     public function store(Request $request){
-        //  $data = request()->all();
         //  dd($data);
         // //store data in variables
-          $title = request()->title;
-          $description = request()->description;
+        $title = request()->title;
+        $description = request()->description;
           $userCreator = request()->post_creator;
 
         //store variables data in database

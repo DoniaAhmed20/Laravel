@@ -34,12 +34,12 @@
     </div>
     <div class="card-body">
         <form
-            action="{{route('comments.store', ['id' => Auth::id(), 'commentable_id' => $post['id'], 'commentable_type' => get_class($post)])}}"
+            action="{{route('comments.store',$post->id)}}"
             method="POST">
             @csrf
 
             <div class="form-group">
-                <textarea name="body" id="body" cols="15" rows="4" class="form-control"
+                <textarea name="comment" id="body" cols="15" rows="4" class="form-control"
                     placeholder="Your comment here"></textarea>
             </div>
 
@@ -56,7 +56,7 @@
             <div class="card-body">
                 <div>
                     <span style="font-size: 1.2rem; font-weight: bold">Comment: </span>
-                    {{$comment->body}}
+                    {{$comment->comment}}
                 </div>
                 <div>
                     <span style="font-size: 1rem; font-weight: bold">Created At: </span>
@@ -76,7 +76,7 @@
         </form>
     </div>
 
-    <form method="POST" action="{{ route('comments.update', $comment) }}" id="edit-comment-form-{{$comment->id}}">
+    <form method="POST" action="{{ route('comments.update', $comment->id) }}" id="edit-comment-form-{{$comment->id}}">
         @csrf
         @method('PUT')
         <div class="form-group">
