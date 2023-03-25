@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Comment;
+//use App\Models\Comment;
 
 
-use App\Http\Requests\UpdatePostName;
+//use App\Http\Requests\UpdatePostName;
 use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
@@ -63,7 +63,7 @@ class PostController extends Controller
                 //column name -> came data of name of input
                'title'=> request()->title,
                'description'=> request()->description,
-               
+
 
             ]);
         return to_route('posts.index')->with('success', 'A Post is Updated Successfully!');
@@ -92,21 +92,21 @@ class PostController extends Controller
         return view('post.create', ['users' => $users]);
     }
 
-    public function store(StorePostRequest $request){
+    public function store(Request $request){
         //  $data = request()->all();
         //  dd($data);
         // //store data in variables
-        //  $title = request()->title;
-        //  $description = request()->description;
-        //  $userCreator = request()->post_creator;
+          $title = request()->title;
+          $description = request()->description;
+          $userCreator = request()->post_creator;
 
         //store variables data in database
         Post::create([
-            'title' => request()->title,
-            'description' => request()->description,
-            'user_id' => request()->post_creator
+            'title' => $title,
+            'description' => $description,
+            'user_id' => $userCreator,
         ]);
-        return redirect()->route('posts.index');
+        return to_route('posts.index');
     }
 
     //delete
