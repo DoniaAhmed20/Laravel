@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
-//use App\Models\Comment;
+use App\Models\Comment;
 
 
 //use App\Http\Requests\UpdatePostName;
@@ -19,6 +19,8 @@ class PostController extends Controller
         return view('post.index', ['posts' => $allPosts]);
     }
 
+    ///////////////////////////////////show//////////////////////
+
     public function show($id)
     {
         //        $post = Post::find($id); //select * from posts where id = 1 limit 1;
@@ -32,24 +34,8 @@ class PostController extends Controller
         return view('post.show', ['post' => $post]);
     }
 
-    //     public function show($id)
-    //     {
-    // //        dd($id);
-    //         $post =  [
-    //             'id' => 3,
-    //             'title' => 'Javascript',
-    //             'posted_by' => 'Ali',
-    //             'created_at' => '2022-08-01 10:00:00',
-    //             'description' => 'hello description',
-    //         ];
 
-    // //        dd($post);
-
-    //         return view('post.show', ['post' => $post]);
-    //     }
-
-    //EDIT function
-    ////////Edit////////
+    ///////////////////////////////////Edit/////////////////////////////
     public function edit($id)
     {
         $post = Post::find($id);

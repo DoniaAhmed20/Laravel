@@ -7,7 +7,7 @@ use App\Models\Comment;
 use App\Models\Post;
 class CommentController extends Controller
 {
-    public function store($id, Request $request)
+    public function store(Request $request)
     {
         $post = Post::find($request->post);
         $post->comments()->create($request->all());
