@@ -1,31 +1,23 @@
 @extends('layouts.app')
 
-@section('title') Edit @endsection
+
+@section('title') Update @endsection
 
 @section('content')
-
-
-<form method="post" action="{{route('posts.update', $post->id)}}">
+<form class="mt-5" action="{{route("posts.update", $post['id'])}}" method="post">
     @csrf
-    @method('PUT')
-    <div class="mb-3">
-      <label for="disabledTextInput" class="form-label">Title</label>
-      <input type="text" id="disabledTextInput" class="form-control" placeholder="Title input" value="{{$post['title']}}">
+    @method("put")
+    <div class="mb-4">
+        <label class="form-label">Title</label>
+        <input type="text" class="form-control" value="{{$post['title']}}" name="title">
     </div>
-    <div class="mb-3">
-      <label for="disabledSelect" class="form-label">Discription</label>
-      <input type="text" id="disabledTextInput" class="form-control" placeholder="Discription input" value="{{$post['discription']}}">
-
+    <div class="mb-4">
+        <label class="form-label">Description</label>
+        <div class="form-floating">
+            <textarea name="description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px">{{$post['description']}}</textarea>
+            <label for="floatingTextarea2">Post</label>
+        </div>
     </div>
-
-    <div class="mb-3">
-      <label for="disabledSelect" class="form-label">posted_by</label>
-      <input type="text" id="disabledTextInput" class="form-control" placeholder="posted_by" value="{{$post['posted_by']}}">
-    </div>
-
-
-
-    <button type="submit" class="btn btn-primary">Edit</button>
+    <button type="submit" class="btn btn-primary">Update</button>
 </form>
-
 @endsection
