@@ -28,8 +28,8 @@ Route::get('/', [TestController::class, 'test']);
 // Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 // Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 // Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
-
-Route::get('/posts',[PostController::class, 'index'])->name('posts.index');
+Auth::routes();
+Route::get('/posts',[PostController::class, 'index'])->name('posts.index')->middleware(middleware:'auth');
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 Route::get('/posts/edit', [PostController::class, 'edit'])->name('posts.edit');
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
@@ -45,3 +45,7 @@ Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->nam
 Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
 
 
+
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

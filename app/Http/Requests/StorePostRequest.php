@@ -25,32 +25,21 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => [
-                'required',
-                'string',
-                'min:3',
+            'title' => ['required','string','min:3',
                 //'slug' => 'unique:posts',
                 Rule::unique('posts')->ignore($this->post),
             ],
-            'description' => [
-                'required',
-                'string',
-                'min:10',
-            ],
-            'post_creator' => [
-                'required',
-                'exists:users,id',
-                //new MaxPosts,
-            ],
-            'image' => [
-                'mimes:jpeg,png',
-            ],
+            'description' => ['required','string','min:10',],
+
+            'post_creator' => ['required','exists:users,id',//new MaxPosts,],
+
+            //'image' => ['mimes:jpeg,png',],
 
             'tags' => [
                 'nullable',
                 'string',
             ],
 
-        ];
+        ]];
     }
 }

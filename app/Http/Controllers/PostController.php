@@ -62,7 +62,15 @@ class PostController extends Controller
         return view('post.create', ['users' => $users]);
     }
 
-    public function store(Request $request){
+    public function store(StorePostRequest $request){  //logic of inserting data in database
+        //validation on the data form
+        // $request->validate([ //take key and value
+        //     'title' => ['required' , 'min:3'],
+        //     'description' => ['required' , 'min:3'],
+
+        // ]);
+
+
         //  dd($data);
         // //store data in variables
         $title = request()->title;
