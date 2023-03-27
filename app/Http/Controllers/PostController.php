@@ -5,10 +5,14 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
+use App\Jobs\PruneOldPostsJob;
+use Illuminate\Support\Facades\Storage;
+
 
 
 //use App\Http\Requests\UpdatePostName;
 use App\Http\Requests\StorePostRequest;
+//use App\Jobs\PruneOldPostsJob;
 
 class PostController extends Controller
 {
@@ -75,13 +79,15 @@ class PostController extends Controller
         // //store data in variables
         $title = request()->title;
         $description = request()->description;
-          $userCreator = request()->post_creator;
+        $userCreator = request()->post_creator;
+        $slug = request()->slug;
 
         //store variables data in database
         Post::create([
             'title' => $title,
             'description' => $description,
-            'user_id' => $userCreator,
+            'user_id' => $request->$userCreator,
+            'slug' => $slug
         ]);
         return to_route('posts.index');
     }
@@ -93,4 +99,11 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('posts.index', $post['user_id']);
     }
+
+    public function removeOldPosts()
+    {
+        PruneOldPostsJob::dispatch();
+        return to_route('posts.index')->with('success', 'An old Post is deleted Successfully!');
+    }
+
 }
